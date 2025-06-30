@@ -13,11 +13,11 @@ let sessionStatsData = {}; // 场次统计数据
 
 // 评分和标签的映射关系
 const scoreLabelsMap = {
-    '1': ['讲解混乱', '有点无聊', '每次都拖堂'],
-    '2': ['讲解模糊', '比较普通', '经常会拖堂'],
-    '3': ['讲解到位', '还算生动', '有时会拖堂'],
-    '4': ['讲解很清楚', '比较有趣', '几乎不拖堂'],
-    '5': ['讲解很透彻', '非常幽默', '从来不拖堂']
+    '1': ['讲解混乱', '枯燥乏味', '无互动参与', '方法没用', '听不懂'],
+    '2': ['讲解模糊', '平淡无趣', '互动参与弱', '方法欠佳', '偏难或简单'],
+    '3': ['讲解到位', '还算生动', '参与感一般', '方法有帮助', '难度适中'],
+    '4': ['讲解很清楚', '生动有趣', '互动氛围好', '方法很好', '难度适宜'],
+    '5': ['讲解很透彻', '精彩纷呈', '引导互动强', '方法非常好', '轻松易学']
 };
 
 // 字段映射配置（用于适配不同数据源的字段名）
@@ -133,6 +133,7 @@ const teacherSortField = document.getElementById('teacher-sort-field');
 const teacherSortOrder = document.getElementById('teacher-sort-order');
 const teacherApplyFilter = document.getElementById('teacher-apply-filter');
 const teacherResetFilters = document.getElementById('teacher-reset-filters');
+const teacherExportBtn = document.getElementById('teacher-export-btn');
 
 // 评价内容分页
 let commentsCurrentPage = 1;
@@ -451,6 +452,9 @@ function initEventListeners() {
     if (commentsExportBtn) {
         commentsExportBtn.addEventListener('click', exportCommentsToExcel);
     }
+    if (teacherExportBtn) {
+        teacherExportBtn.addEventListener('click', exportTeacherAnalysisToExcel);
+    }
     
     // 主讲老师分析重置筛选按钮
     if (teacherResetFilters) {
@@ -717,7 +721,7 @@ async function parseFile(file) {
                     const workbook = XLSX.read(fileData, { type: 'binary' });
                     const sheetName = workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[sheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: "" });
                     // 打印数据结构，查看字段名
                     if (jsonData.length > 0) {
                         console.log('Excel数据字段:', Object.keys(jsonData[0]));
@@ -1499,7 +1503,7 @@ function applyFilters() {
             }
             
             const placeholder = extractPlaceholder(row.stu_content);
-            if (!placeholder || placeholder === "有什么话想对你的主讲老师说吗？ 快告诉Ta吧~") {
+            if (!placeholder || placeholder === "有什么话想对本课程说的吗？快告诉我们吧~") {
                 return false;
             }
         }
@@ -1597,7 +1601,7 @@ function extractValidComments(data) {
         
         // 检查placeholder是否存在且不是默认值
         return placeholder && 
-               placeholder !== "有什么话想对你的主讲老师说吗？ 快告诉Ta吧~";
+               placeholder !== "有什么话想对本课程说的吗？快告诉我们吧~";
     });
 }
 
@@ -1688,7 +1692,7 @@ function applyCommentsFilters() {
         
         // 提取placeholder并检查有效性
         const placeholder = extractPlaceholder(row.stu_content);
-        if (!placeholder || placeholder === "有什么话想对你的主讲老师说吗？ 快告诉Ta吧~") {
+        if (!placeholder || placeholder === "有什么话想对本课程说的吗？快告诉我们吧~") {
             return false;
         }
         
@@ -2363,11 +2367,15 @@ function generateTeacherAnalysis(data) {
                 subject: teacherFullInfo.subject,
                 labelCounts: {
                     '讲解很透彻': 0,
-                    '非常幽默': 0,
-                    '从来不拖堂': 0,
+                    '精彩纷呈': 0,
+                    '引导互动强': 0,
+                    '方法非常好': 0,
+                    '轻松易学': 0,
                     '讲解混乱': 0,
-                    '有点无聊': 0,
-                    '每次都拖堂': 0
+                    '枯燥乏味': 0,
+                    '无互动参与': 0,
+                    '方法没用': 0,
+                    '听不懂': 0
                 }
             };
         }
@@ -2382,11 +2390,15 @@ function generateTeacherAnalysis(data) {
                 oneStarCount: 0,
                 labelCounts: {
                     '讲解很透彻': 0,
-                    '非常幽默': 0,
-                    '从来不拖堂': 0,
+                    '精彩纷呈': 0,
+                    '引导互动强': 0,
+                    '方法非常好': 0,
+                    '轻松易学': 0,
                     '讲解混乱': 0,
-                    '有点无聊': 0,
-                    '每次都拖堂': 0
+                    '枯燥乏味': 0,
+                    '无互动参与': 0,
+                    '方法没用': 0,
+                    '听不懂': 0
                 }
             };
         }
@@ -2430,11 +2442,15 @@ function generateTeacherAnalysis(data) {
         oneStarRate: 0,
         labelRates: {
             '讲解很透彻': 0,
-            '非常幽默': 0,
-            '从来不拖堂': 0,
+            '精彩纷呈': 0,
+            '引导互动强': 0,
+            '方法非常好': 0,
+            '轻松易学': 0,
             '讲解混乱': 0,
-            '有点无聊': 0,
-            '每次都拖堂': 0
+            '枯燥乏味': 0,
+            '无互动参与': 0,
+            '方法没用': 0,
+            '听不懂': 0
         }
     };
     
@@ -2443,11 +2459,15 @@ function generateTeacherAnalysis(data) {
         let totalOneStarRate = 0;
         const totalLabelRates = {
             '讲解很透彻': 0,
-            '非常幽默': 0,
-            '从来不拖堂': 0,
+            '精彩纷呈': 0,
+            '引导互动强': 0,
+            '方法非常好': 0,
+            '轻松易学': 0,
             '讲解混乱': 0,
-            '有点无聊': 0,
-            '每次都拖堂': 0
+            '枯燥乏味': 0,
+            '无互动参与': 0,
+            '方法没用': 0,
+            '听不懂': 0
         };
         
         teacherNames.forEach(name => {
@@ -2519,22 +2539,30 @@ function generateTeacherAnalysis(data) {
                     <td class="subject-cell" rowspan="${sessionCount}">${stats.subject || '-'}</td>
                     <td class="rate-cell five-star-rate ${fiveStarAboveAvg ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${fiveStarRate.toFixed(1)}%</td>
                     <td class="rate-cell ${labelAboveAvg['讲解很透彻'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解很透彻'].toFixed(1)}%</td>
-                    <td class="rate-cell ${labelAboveAvg['非常幽默'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['非常幽默'].toFixed(1)}%</td>
-                    <td class="rate-cell ${labelAboveAvg['从来不拖堂'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['从来不拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['精彩纷呈'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['精彩纷呈'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['引导互动强'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['引导互动强'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['方法非常好'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['方法非常好'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['轻松易学'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['轻松易学'].toFixed(1)}%</td>
                     <td class="rate-cell one-star-rate ${oneStarAboveAvg ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${oneStarRate.toFixed(1)}%</td>
                     <td class="rate-cell ${labelAboveAvg['讲解混乱'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解混乱'].toFixed(1)}%</td>
-                    <td class="rate-cell ${labelAboveAvg['有点无聊'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['有点无聊'].toFixed(1)}%</td>
-                    <td class="rate-cell ${labelAboveAvg['每次都拖堂'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['每次都拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['枯燥乏味'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['枯燥乏味'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['无互动参与'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['无互动参与'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['方法没用'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['方法没用'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['听不懂'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['听不懂'].toFixed(1)}%</td>
                     <td class="session-cell">${sessionId}</td>
                     <td class="session-time-cell">${sessionStat.sessionTime || '未知'}</td>
                     <td class="rate-cell">${sessionFiveStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解很透彻'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['非常幽默'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['从来不拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['精彩纷呈'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['有点无聊'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['每次都拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['无互动参与'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法没用'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['听不懂'].toFixed(1)}%</td>
                 </tr>
                 `;
             } else {
@@ -2545,12 +2573,16 @@ function generateTeacherAnalysis(data) {
                     <td class="session-time-cell">${sessionStat.sessionTime || '未知'}</td>
                     <td class="rate-cell">${sessionFiveStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解很透彻'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['非常幽默'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['从来不拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['精彩纷呈'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['有点无聊'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['每次都拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['无互动参与'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法没用'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['听不懂'].toFixed(1)}%</td>
                 </tr>
                 `;
             }
@@ -2566,12 +2598,16 @@ function generateTeacherAnalysis(data) {
             <td class="rate-cell">-</td>
             <td class="rate-cell">${averageStats.fiveStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['讲解很透彻'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['非常幽默'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['从来不拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['精彩纷呈'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['引导互动强'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['方法非常好'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['轻松易学'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.oneStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['讲解混乱'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['有点无聊'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['每次都拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['枯燥乏味'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['无互动参与'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['方法没用'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['听不懂'].toFixed(1)}%</td>
             <td class="rate-cell">-</td>
             <td class="rate-cell">-</td>
             <td class="rate-cell">-</td>
@@ -2821,22 +2857,30 @@ function generateFilteredTeacherTable(filteredTeachers) {
                         <td class="subject-cell" rowspan="${sessionCount}">${stats.subject || '-'}</td>
                         <td class="rate-cell five-star-rate ${fiveStarAboveAvg ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${fiveStarRate.toFixed(1)}%</td>
                         <td class="rate-cell ${labelAboveAvg['讲解很透彻'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解很透彻'].toFixed(1)}%</td>
-                        <td class="rate-cell ${labelAboveAvg['非常幽默'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['非常幽默'].toFixed(1)}%</td>
-                        <td class="rate-cell ${labelAboveAvg['从来不拖堂'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['从来不拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['精彩纷呈'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['精彩纷呈'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['引导互动强'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['引导互动强'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['方法非常好'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['方法非常好'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['轻松易学'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['轻松易学'].toFixed(1)}%</td>
                         <td class="rate-cell one-star-rate ${oneStarAboveAvg ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${oneStarRate.toFixed(1)}%</td>
                         <td class="rate-cell ${labelAboveAvg['讲解混乱'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解混乱'].toFixed(1)}%</td>
-                        <td class="rate-cell ${labelAboveAvg['有点无聊'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['有点无聊'].toFixed(1)}%</td>
-                        <td class="rate-cell ${labelAboveAvg['每次都拖堂'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['每次都拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['枯燥乏味'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['枯燥乏味'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['无互动参与'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['无互动参与'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['方法没用'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['方法没用'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['听不懂'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['听不懂'].toFixed(1)}%</td>
                         <td class="session-cell">${sessionId}</td>
                         <td class="session-time-cell">${sessionStat.sessionTime || '未知'}</td>
                         <td class="rate-cell">${sessionFiveStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解很透彻'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['非常幽默'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['从来不拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['精彩纷呈'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['有点无聊'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['每次都拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['无互动参与'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法没用'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['听不懂'].toFixed(1)}%</td>
                     </tr>
                     `;
                 } else {
@@ -2847,12 +2891,16 @@ function generateFilteredTeacherTable(filteredTeachers) {
                         <td class="session-time-cell">${sessionStat.sessionTime || '未知'}</td>
                         <td class="rate-cell">${sessionFiveStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解很透彻'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['非常幽默'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['从来不拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['精彩纷呈'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['有点无聊'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['每次都拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['无互动参与'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法没用'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['听不懂'].toFixed(1)}%</td>
                     </tr>
                     `;
                 }
@@ -2869,12 +2917,16 @@ function generateFilteredTeacherTable(filteredTeachers) {
             <td class="rate-cell">-</td>
             <td class="rate-cell">${teacherAverageStats.fiveStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${teacherAverageStats.labelRates['讲解很透彻'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['非常幽默'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['从来不拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['精彩纷呈'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['引导互动强'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['方法非常好'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['轻松易学'].toFixed(1)}%</td>
             <td class="rate-cell">${teacherAverageStats.oneStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${teacherAverageStats.labelRates['讲解混乱'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['有点无聊'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['每次都拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['枯燥乏味'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['无互动参与'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['方法没用'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['听不懂'].toFixed(1)}%</td>
             <td class="rate-cell">-</td>
             <td class="rate-cell">-</td>
             <td class="rate-cell">-</td>
@@ -2959,96 +3011,139 @@ function initSideNavigation() {
 // 显示/隐藏导航菜单
 function toggleSideNavigation(show) {
     const sideNav = document.getElementById('side-nav');
-    const body = document.body;
-    
     if (show) {
         sideNav.classList.remove('hidden');
-        body.classList.add('nav-active');
     } else {
         sideNav.classList.add('hidden');
-        body.classList.remove('nav-active');
     }
 }
 
 // 导出学员评价内容为Excel
 function exportCommentsToExcel() {
-    if (!filteredComments || filteredComments.length === 0) {
-        alert('没有可导出的数据，请先筛选出评价内容');
+    if (!filteredComments.length) {
+        alert('没有可导出的评价数据。');
         return;
     }
-    
+
     try {
-        // 准备导出数据
-        const exportData = filteredComments.map(row => {
-            // 获取场次ID（支持多种字段名）
+        const header = [
+            "评价ID", "场次ID", "学生ID", "评分", "标签", "内容", "APP版本", "设备", "时间", "主讲老师", "产品线", "年级", "学科"
+        ];
+        
+        const dataToExport = filteredComments.map(item => {
+            // 1. 动态查找场次ID
             let sessionId = '';
             for (const field of fieldMapping.sessionIdFields) {
-                if (row[field]) {
-                    sessionId = String(row[field]);
+                if (item[field] !== undefined && item[field] !== null) {
+                    sessionId = String(item[field]);
                     break;
                 }
             }
+
+            // 2. 根据场次ID获取教师信息
+            const teacherData = sessionId ? (teacherMapping[sessionId] || {}) : {};
+            const teacherInfo = extractTeacherFullInfo(teacherData);
+
+            // 3. 提取其他字段，使用回退方案以兼容不同列名
+            const evaluationId = item.evaluation_id || item.evaluationId || '';
+            const studentId = item.stu_id || item.studentId || '';
+            const score = item.stu_score || item.score || '';
+            const content = item.stu_content ? extractPlaceholder(item.stu_content) : (item.content || '');
+            const appVersion = item.app_version_number || item.appVersion || '';
+            const device = item.devices || item.device || '';
+            const time = item.created_at || item.time || '';
             
-            // 提取评价内容
-            const content = extractPlaceholder(row.stu_content) || '';
-            
-            // 格式化评价时间
-            let evaluationTime = '';
-            if (row.created_at) {
-                try {
-                    evaluationTime = new Date(row.created_at).toLocaleString('zh-CN', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit'
-                    });
-                } catch (e) {
-                    evaluationTime = row.created_at;
-                }
+            let labels = '';
+            if (item.label && item.label !== "[]") {
+                labels = item.label.split(',').map(l => cleanLabel(l)).join(', ');
             }
-            
+
             return {
+                '评价ID': evaluationId,
                 '场次ID': sessionId,
-                '学生ID': row.stu_id || '',
-                '评分': row.stu_score || '',
-                '评价内容': content,
-                '评价时间': evaluationTime
+                '学生ID': studentId,
+                '评分': score,
+                '标签': labels,
+                '内容': content,
+                'APP版本': appVersion,
+                '设备': device,
+                '时间': time,
+                '主讲老师': teacherInfo.name || '未知',
+                '产品线': teacherInfo.productLine || '未知',
+                '年级': teacherInfo.grade || '未知',
+                '学科': teacherInfo.subject || '未知'
             };
         });
         
-        // 创建工作簿
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.json_to_sheet(exportData);
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport, { header: header });
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "学生评价内容");
         
-        // 设置列宽
-        const colWidths = [
+        worksheet['!cols'] = [
+            { wch: 20 }, // 评价ID
             { wch: 15 }, // 场次ID
-            { wch: 15 }, // 学生ID
+            { wch: 25 }, // 学生ID
             { wch: 8 },  // 评分
-            { wch: 50 }, // 评价内容
-            { wch: 20 }  // 评价时间
+            { wch: 40 }, // 标签
+            { wch: 60 }, // 内容
+            { wch: 15 }, // APP版本
+            { wch: 20 }, // 设备
+            { wch: 20 }, // 时间
+            { wch: 15 }, // 主讲老师
+            { wch: 30 }, // 产品线
+            { wch: 10 }, // 年级
+            { wch: 10 }  // 学科
         ];
-        ws['!cols'] = colWidths;
         
-        // 添加工作表到工作簿
-        XLSX.utils.book_append_sheet(wb, ws, '学员评价内容');
-        
-        // 生成文件名（包含当前时间）
         const now = new Date();
-        const timestamp = now.toISOString().slice(0, 19).replace(/[:-]/g, '').replace('T', '_');
-        const filename = `学员评价内容_${timestamp}.xlsx`;
-        
-        // 导出文件
-        XLSX.writeFile(wb, filename);
-        
-        // 显示成功消息
-        alert(`成功导出 ${exportData.length} 条评价内容到文件：${filename}`);
-        
+        const timestamp = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
+        const filename = `学生评价内容_${timestamp}.xlsx`;
+        XLSX.writeFile(workbook, filename);
     } catch (error) {
-        console.error('导出Excel时发生错误:', error);
-        alert('导出失败，请检查浏览器是否支持文件下载功能');
+        console.error("导出评价数据失败:", error);
+        alert("导出失败，请查看控制台获取更多信息。");
+    }
+}
+
+// 导出主讲老师分析数据为Excel
+function exportTeacherAnalysisToExcel() {
+    const table = document.querySelector('.teacher-stats-table');
+    if (!table || !table.querySelector('tbody tr')) {
+        alert('没有可导出的主讲老师分析数据。');
+        return;
+    }
+
+    try {
+        // 使用table_to_book，它可以更好地处理rowspan等复杂的表格结构
+        const workbook = XLSX.utils.table_to_book(table, { sheet: "主讲老师分析" });
+        
+        // 调整列宽
+        const worksheet = workbook.Sheets["主讲老师分析"];
+        const colWidths = [
+            { wch: 12 }, // 主讲姓名
+            { wch: 25 }, // 产品线
+            { wch: 10 }, // 年级
+            { wch: 10 }, // 学科
+            { wch: 10 }, // 五星率
+            { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, // 五星标签
+            { wch: 10 }, // 一星率
+            { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, // 一星标签
+            { wch: 15 }, // 场次ID
+            { wch: 20 }, // 场次时间
+            { wch: 10 }, // 场次五星率
+            { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, // 场次五星标签
+            { wch: 10 }, // 场次一星率
+            { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 }  // 场次一星标签
+        ];
+        worksheet['!cols'] = colWidths;
+        
+        const now = new Date();
+        const timestamp = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
+        const filename = `主讲老师分析数据_${timestamp}.xlsx`;
+        XLSX.writeFile(workbook, filename);
+    } catch (error) {
+        console.error("导出主讲老师分析数据失败:", error);
+        alert("导出失败，请查看控制台获取更多信息。");
     }
 }
 

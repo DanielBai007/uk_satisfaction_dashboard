@@ -13,11 +13,11 @@ let sessionStatsData = {}; // 场次统计数据
 
 // 评分和标签的映射关系
 const scoreLabelsMap = {
-    '1': ['讲解混乱', '有点无聊', '每次都拖堂'],
-    '2': ['讲解模糊', '比较普通', '经常会拖堂'],
-    '3': ['讲解到位', '还算生动', '有时会拖堂'],
-    '4': ['讲解很清楚', '比较有趣', '几乎不拖堂'],
-    '5': ['讲解很透彻', '非常幽默', '从来不拖堂']
+    '1': ['讲解混乱', '枯燥乏味', '无互动参与', '方法没用', '听不懂'],
+    '2': ['讲解模糊', '平淡无趣', '互动参与弱', '方法欠佳', '偏难或简单'],
+    '3': ['讲解到位', '还算生动', '参与感一般', '方法有帮助', '难度适中'],
+    '4': ['讲解很清楚', '生动有趣', '互动氛围好', '方法很好', '难度适宜'],
+    '5': ['讲解很透彻', '精彩纷呈', '引导互动强', '方法非常好', '轻松易学']
 };
 
 // 字段映射配置（用于适配不同数据源的字段名）
@@ -1296,7 +1296,7 @@ function applyFilters() {
             }
             
             const placeholder = extractPlaceholder(row.stu_content);
-            if (!placeholder || placeholder === "有什么话想对你的主讲老师说吗？ 快告诉Ta吧~") {
+            if (!placeholder || placeholder === "有什么话想对本课程说的吗？快告诉我们吧~") {
                 return false;
             }
         }
@@ -1394,7 +1394,7 @@ function extractValidComments(data) {
         
         // 检查placeholder是否存在且不是默认值
         return placeholder && 
-               placeholder !== "有什么话想对你的主讲老师说吗？ 快告诉Ta吧~";
+               placeholder !== "有什么话想对本课程说的吗？快告诉我们吧~";
     });
 }
 
@@ -1423,7 +1423,7 @@ function applyCommentsFilters() {
         
         // 提取placeholder并检查有效性
         const placeholder = extractPlaceholder(row.stu_content);
-        if (!placeholder || placeholder === "有什么话想对你的主讲老师说吗？ 快告诉Ta吧~") {
+        if (!placeholder || placeholder === "有什么话想对本课程说的吗？快告诉我们吧~") {
             return false;
         }
         
@@ -1796,11 +1796,15 @@ function generateTeacherAnalysis(data) {
                 sessions: new Set(), // 记录该主讲老师的所有场次
                 labelCounts: {
                     '讲解很透彻': 0,
-                    '非常幽默': 0,
-                    '从来不拖堂': 0,
+                    '精彩纷呈': 0,
+                    '引导互动强': 0,
+                    '方法非常好': 0,
+                    '轻松易学': 0,
                     '讲解混乱': 0,
-                    '有点无聊': 0,
-                    '每次都拖堂': 0
+                    '枯燥乏味': 0,
+                    '无互动参与': 0,
+                    '方法没用': 0,
+                    '听不懂': 0
                 }
             };
         }
@@ -1815,11 +1819,15 @@ function generateTeacherAnalysis(data) {
                 oneStarCount: 0,
                 labelCounts: {
                     '讲解很透彻': 0,
-                    '非常幽默': 0,
-                    '从来不拖堂': 0,
+                    '精彩纷呈': 0,
+                    '引导互动强': 0,
+                    '方法非常好': 0,
+                    '轻松易学': 0,
                     '讲解混乱': 0,
-                    '有点无聊': 0,
-                    '每次都拖堂': 0
+                    '枯燥乏味': 0,
+                    '无互动参与': 0,
+                    '方法没用': 0,
+                    '听不懂': 0
                 }
             };
         }
@@ -1863,11 +1871,15 @@ function generateTeacherAnalysis(data) {
         oneStarRate: 0,
         labelRates: {
             '讲解很透彻': 0,
-            '非常幽默': 0,
-            '从来不拖堂': 0,
+            '精彩纷呈': 0,
+            '引导互动强': 0,
+            '方法非常好': 0,
+            '轻松易学': 0,
             '讲解混乱': 0,
-            '有点无聊': 0,
-            '每次都拖堂': 0
+            '枯燥乏味': 0,
+            '无互动参与': 0,
+            '方法没用': 0,
+            '听不懂': 0
         }
     };
     
@@ -1876,11 +1888,15 @@ function generateTeacherAnalysis(data) {
         let totalOneStarRate = 0;
         const totalLabelRates = {
             '讲解很透彻': 0,
-            '非常幽默': 0,
-            '从来不拖堂': 0,
+            '精彩纷呈': 0,
+            '引导互动强': 0,
+            '方法非常好': 0,
+            '轻松易学': 0,
             '讲解混乱': 0,
-            '有点无聊': 0,
-            '每次都拖堂': 0
+            '枯燥乏味': 0,
+            '无互动参与': 0,
+            '方法没用': 0,
+            '听不懂': 0
         };
         
         teacherNames.forEach(name => {
@@ -1937,12 +1953,16 @@ function generateTeacherAnalysis(data) {
                 <td class="teacher-name-cell" rowspan="${sessionCount + 1}">${name}</td>
                 <td class="rate-cell five-star-rate ${fiveStarAboveAvg ? 'above-average-five-star' : ''}">${fiveStarRate.toFixed(1)}%</td>
                 <td class="rate-cell ${labelAboveAvg['讲解很透彻'] ? 'above-average-five-star' : ''}">${labelRates['讲解很透彻'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['非常幽默'] ? 'above-average-five-star' : ''}">${labelRates['非常幽默'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['从来不拖堂'] ? 'above-average-five-star' : ''}">${labelRates['从来不拖堂'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['精彩纷呈'] ? 'above-average-five-star' : ''}">${labelRates['精彩纷呈'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['引导互动强'] ? 'above-average-five-star' : ''}">${labelRates['引导互动强'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['方法非常好'] ? 'above-average-five-star' : ''}">${labelRates['方法非常好'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['轻松易学'] ? 'above-average-five-star' : ''}">${labelRates['轻松易学'].toFixed(1)}%</td>
                 <td class="rate-cell one-star-rate ${oneStarAboveAvg ? 'above-average-one-star' : ''}">${oneStarRate.toFixed(1)}%</td>
                 <td class="rate-cell ${labelAboveAvg['讲解混乱'] ? 'above-average-one-star' : ''}">${labelRates['讲解混乱'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['有点无聊'] ? 'above-average-one-star' : ''}">${labelRates['有点无聊'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['每次都拖堂'] ? 'above-average-one-star' : ''}">${labelRates['每次都拖堂'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['枯燥乏味'] ? 'above-average-one-star' : ''}">${labelRates['枯燥乏味'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['无互动参与'] ? 'above-average-one-star' : ''}">${labelRates['无互动参与'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['方法没用'] ? 'above-average-one-star' : ''}">${labelRates['方法没用'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['听不懂'] ? 'above-average-one-star' : ''}">${labelRates['听不懂'].toFixed(1)}%</td>
                 <td class="session-cell" colspan="2">汇总数据</td>
                 <td class="rate-cell" colspan="8">X%</td>
             </tr>
@@ -1966,12 +1986,16 @@ function generateTeacherAnalysis(data) {
                     <td class="session-time-cell">${sessionStat.sessionTime || '未知'}</td>
                     <td class="rate-cell">${sessionFiveStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解很透彻'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['非常幽默'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['从来不拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['精彩纷呈'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['有点无聊'].toFixed(1)}%</td>
-                    <td class="rate-cell">${sessionLabelRates['每次都拖堂'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['无互动参与'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法没用'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['听不懂'].toFixed(1)}%</td>
                 </tr>
             `;
         });
@@ -1983,12 +2007,16 @@ function generateTeacherAnalysis(data) {
             <td class="teacher-name-cell">该讲次主讲平均值</td>
             <td class="rate-cell">${averageStats.fiveStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['讲解很透彻'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['非常幽默'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['从来不拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['精彩纷呈'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['引导互动强'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['方法非常好'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['轻松易学'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.oneStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['讲解混乱'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['有点无聊'].toFixed(1)}%</td>
-            <td class="rate-cell">${averageStats.labelRates['每次都拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['枯燥乏味'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['无互动参与'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['方法没用'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['听不懂'].toFixed(1)}%</td>
         </tr>
     `;
     
@@ -2116,12 +2144,16 @@ function generateFilteredTeacherTable(filteredTeachers) {
                 <td class="teacher-name-cell" rowspan="${sessionCount + 1}">${name}</td>
                 <td class="rate-cell five-star-rate ${fiveStarAboveAvg ? 'above-average-five-star' : ''}">${fiveStarRate.toFixed(1)}%</td>
                 <td class="rate-cell ${labelAboveAvg['讲解很透彻'] ? 'above-average-five-star' : ''}">${labelRates['讲解很透彻'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['非常幽默'] ? 'above-average-five-star' : ''}">${labelRates['非常幽默'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['从来不拖堂'] ? 'above-average-five-star' : ''}">${labelRates['从来不拖堂'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['精彩纷呈'] ? 'above-average-five-star' : ''}">${labelRates['精彩纷呈'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['引导互动强'] ? 'above-average-five-star' : ''}">${labelRates['引导互动强'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['方法非常好'] ? 'above-average-five-star' : ''}">${labelRates['方法非常好'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['轻松易学'] ? 'above-average-five-star' : ''}">${labelRates['轻松易学'].toFixed(1)}%</td>
                 <td class="rate-cell one-star-rate ${oneStarAboveAvg ? 'above-average-one-star' : ''}">${oneStarRate.toFixed(1)}%</td>
                 <td class="rate-cell ${labelAboveAvg['讲解混乱'] ? 'above-average-one-star' : ''}">${labelRates['讲解混乱'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['有点无聊'] ? 'above-average-one-star' : ''}">${labelRates['有点无聊'].toFixed(1)}%</td>
-                <td class="rate-cell ${labelAboveAvg['每次都拖堂'] ? 'above-average-one-star' : ''}">${labelRates['每次都拖堂'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['枯燥乏味'] ? 'above-average-one-star' : ''}">${labelRates['枯燥乏味'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['无互动参与'] ? 'above-average-one-star' : ''}">${labelRates['无互动参与'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['方法没用'] ? 'above-average-one-star' : ''}">${labelRates['方法没用'].toFixed(1)}%</td>
+                <td class="rate-cell ${labelAboveAvg['听不懂'] ? 'above-average-one-star' : ''}">${labelRates['听不懂'].toFixed(1)}%</td>
                 <td class="session-cell" colspan="2">汇总数据</td>
                 <td class="rate-cell" colspan="8">X%</td>
             </tr>
@@ -2146,12 +2178,16 @@ function generateFilteredTeacherTable(filteredTeachers) {
                         <td class="session-time-cell">${sessionStat.sessionTime || '未知'}</td>
                         <td class="rate-cell">${sessionFiveStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解很透彻'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['非常幽默'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['从来不拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['精彩纷呈'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['有点无聊'].toFixed(1)}%</td>
-                        <td class="rate-cell">${sessionLabelRates['每次都拖堂'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['无互动参与'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法没用'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['听不懂'].toFixed(1)}%</td>
                     </tr>
                 `;
             }
@@ -2164,12 +2200,16 @@ function generateFilteredTeacherTable(filteredTeachers) {
             <td class="teacher-name-cell">该讲次主讲平均值</td>
             <td class="rate-cell">${teacherAverageStats.fiveStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${teacherAverageStats.labelRates['讲解很透彻'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['非常幽默'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['从来不拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['精彩纷呈'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['引导互动强'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['方法非常好'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['轻松易学'].toFixed(1)}%</td>
             <td class="rate-cell">${teacherAverageStats.oneStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${teacherAverageStats.labelRates['讲解混乱'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['有点无聊'].toFixed(1)}%</td>
-            <td class="rate-cell">${teacherAverageStats.labelRates['每次都拖堂'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['枯燥乏味'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['无互动参与'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['方法没用'].toFixed(1)}%</td>
+            <td class="rate-cell">${teacherAverageStats.labelRates['听不懂'].toFixed(1)}%</td>
         </tr>
     `;
     
