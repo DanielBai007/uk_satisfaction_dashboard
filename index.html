@@ -229,11 +229,15 @@
                         <option value="fiveStarRate">五星率</option>
                         <option value="oneStarRate">一星率</option>
                         <option value="讲解很透彻">讲清楚</option>
-                        <option value="非常幽默">吸引人</option>
-                        <option value="从来不拖堂">不拖堂</option>
+                        <option value="精彩纷呈">吸引人</option>
+                        <option value="引导互动强">引导强</option>
+                        <option value="方法非常好">方法好</option>
+                        <option value="轻松易学">轻松学</option>
                         <option value="讲解混乱">不清楚</option>
-                        <option value="有点无聊">没意思</option>
-                        <option value="每次都拖堂">拖堂</option>
+                        <option value="枯燥乏味">没意思</option>
+                        <option value="无互动参与">无互动</option>
+                        <option value="方法没用">方法差</option>
+                        <option value="听不懂">听不懂</option>
                     </select>
                 </div>
                 <div class="control-group">
@@ -242,6 +246,12 @@
                         <option value="desc">降序</option>
                         <option value="asc">升序</option>
                     </select>
+                </div>
+                <div class="control-group">
+                    <button id="teacher-export-btn" class="secondary-btn">
+                        <i class="bi bi-download"></i>
+                        导出Excel
+                    </button>
                 </div>
                 <div class="control-group">
                     <button id="teacher-reset-filters" class="reset-btn">
@@ -263,21 +273,29 @@
                                 <th class="five-star-header">五星率</th>
                                 <th class="sub-header">讲清楚</th>
                                 <th class="sub-header">吸引人</th>
-                                <th class="sub-header">不拖堂</th>
+                                <th class="sub-header">引导强</th>
+                                <th class="sub-header">方法好</th>
+                                <th class="sub-header">轻松学</th>
                                 <th class="one-star-header">一星率</th>
                                 <th class="sub-header">不清楚</th>
                                 <th class="sub-header">没意思</th>
-                                <th class="sub-header">拖堂</th>
+                                <th class="sub-header">无互动</th>
+                                <th class="sub-header">方法差</th>
+                                <th class="sub-header">听不懂</th>
                                 <th class="session-header">场次ID</th>
                                 <th class="session-time-header">场次时间</th>
                                 <th class="session-five-star-header">五星率</th>
                                 <th class="sub-header">讲清楚</th>
                                 <th class="sub-header">吸引人</th>
-                                <th class="sub-header">不拖堂</th>
+                                <th class="sub-header">引导强</th>
+                                <th class="sub-header">方法好</th>
+                                <th class="sub-header">轻松学</th>
                                 <th class="session-one-star-header">一星率</th>
                                 <th class="sub-header">不清楚</th>
                                 <th class="sub-header">没意思</th>
-                                <th class="sub-header">拖堂</th>
+                                <th class="sub-header">无互动</th>
+                                <th class="sub-header">方法差</th>
+                                <th class="sub-header">听不懂</th>
                             </tr>
                         </thead>
                         <tbody id="teacher-stats-body">
