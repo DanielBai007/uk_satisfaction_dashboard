@@ -8,7 +8,11 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    
+    <!-- 多个Bootstrap Icons CDN备选 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <script>
         window.addEventListener('DOMContentLoaded', function() {
@@ -32,6 +36,21 @@
                 script.src = 'js/libs/echarts.min.js';
                 document.head.appendChild(script);
             }
+            
+            // 检查Bootstrap Icons是否正确加载
+            setTimeout(function() {
+                const testElement = document.createElement('i');
+                testElement.className = 'bi bi-check';
+                testElement.style.position = 'absolute';
+                testElement.style.left = '-9999px';
+                document.body.appendChild(testElement);
+                const fontFamily = getComputedStyle(testElement).fontFamily;
+                document.body.removeChild(testElement);
+                
+                if (!fontFamily.includes('bootstrap-icons')) {
+                    console.warn('Bootstrap Icons 可能未正确加载');
+                }
+            }, 100);
         });
     </script>
 </head>
@@ -184,10 +203,6 @@
         <!-- 主讲老师分析模块 -->
         <section id="teacher-analysis" class="teacher-analysis hidden">
             <h2>主讲老师分析</h2>
-            <!-- <div class="filter-tip">
-                <i class="bi bi-info-circle"></i>
-                <span>筛选条件会自动应用，无需手动点击按钮</span>
-            </div> -->
             
             <!-- 筛选和排序控件 -->
             <div class="teacher-controls">
@@ -227,16 +242,34 @@
                     <label for="teacher-sort-field">排序字段：</label>
                     <select id="teacher-sort-field">
                         <option value="fiveStarRate">五星率</option>
+                        <option value="fourStarRate">四星率</option>
+                        <option value="threeStarRate">三星率</option>
+                        <option value="twoStarRate">二星率</option>
                         <option value="oneStarRate">一星率</option>
-                        <option value="讲解很透彻">讲清楚</option>
-                        <option value="精彩纷呈">吸引人</option>
-                        <option value="引导互动强">引导强</option>
-                        <option value="方法非常好">方法好</option>
-                        <option value="轻松易学">轻松学</option>
-                        <option value="讲解混乱">不清楚</option>
-                        <option value="枯燥乏味">没意思</option>
-                        <option value="无互动参与">无互动</option>
-                        <option value="方法没用">方法差</option>
+                        <option value="讲解很透彻">讲解很透彻</option>
+                        <option value="精彩纷呈">精彩纷呈</option>
+                        <option value="引导互动强">引导互动强</option>
+                        <option value="方法非常好">方法非常好</option>
+                        <option value="轻松易学">轻松易学</option>
+                        <option value="讲解很清楚">讲解很清楚</option>
+                        <option value="生动有趣">生动有趣</option>
+                        <option value="互动氛围好">互动氛围好</option>
+                        <option value="方法很好">方法很好</option>
+                        <option value="难度适宜">难度适宜</option>
+                        <option value="讲解到位">讲解到位</option>
+                        <option value="还算生动">还算生动</option>
+                        <option value="参与感一般">参与感一般</option>
+                        <option value="方法有帮助">方法有帮助</option>
+                        <option value="难度适中">难度适中</option>
+                        <option value="讲解模糊">讲解模糊</option>
+                        <option value="平淡无趣">平淡无趣</option>
+                        <option value="互动参与弱">互动参与弱</option>
+                        <option value="方法欠佳">方法欠佳</option>
+                        <option value="偏难或简单">偏难或简单</option>
+                        <option value="讲解混乱">讲解混乱</option>
+                        <option value="枯燥乏味">枯燥乏味</option>
+                        <option value="无互动参与">无互动参与</option>
+                        <option value="方法没用">方法没用</option>
                         <option value="听不懂">听不懂</option>
                     </select>
                 </div>
@@ -271,30 +304,66 @@
                                 <th class="grade-header">年级</th>
                                 <th class="subject-header">学科</th>
                                 <th class="five-star-header">五星率</th>
-                                <th class="sub-header">讲清楚</th>
-                                <th class="sub-header">吸引人</th>
-                                <th class="sub-header">引导强</th>
-                                <th class="sub-header">方法好</th>
-                                <th class="sub-header">轻松学</th>
+                                <th class="sub-header">讲解很透彻</th>
+                                <th class="sub-header">精彩纷呈</th>
+                                <th class="sub-header">引导互动强</th>
+                                <th class="sub-header">方法非常好</th>
+                                <th class="sub-header">轻松易学</th>
+                                <th class="four-star-header">四星率</th>
+                                <th class="sub-header">讲解很清楚</th>
+                                <th class="sub-header">生动有趣</th>
+                                <th class="sub-header">互动氛围好</th>
+                                <th class="sub-header">方法很好</th>
+                                <th class="sub-header">难度适宜</th>
+                                <th class="three-star-header">三星率</th>
+                                <th class="sub-header">讲解到位</th>
+                                <th class="sub-header">还算生动</th>
+                                <th class="sub-header">参与感一般</th>
+                                <th class="sub-header">方法有帮助</th>
+                                <th class="sub-header">难度适中</th>
+                                <th class="two-star-header">二星率</th>
+                                <th class="sub-header">讲解模糊</th>
+                                <th class="sub-header">平淡无趣</th>
+                                <th class="sub-header">互动参与弱</th>
+                                <th class="sub-header">方法欠佳</th>
+                                <th class="sub-header">偏难或简单</th>
                                 <th class="one-star-header">一星率</th>
-                                <th class="sub-header">不清楚</th>
-                                <th class="sub-header">没意思</th>
-                                <th class="sub-header">无互动</th>
-                                <th class="sub-header">方法差</th>
+                                <th class="sub-header">讲解混乱</th>
+                                <th class="sub-header">枯燥乏味</th>
+                                <th class="sub-header">无互动参与</th>
+                                <th class="sub-header">方法没用</th>
                                 <th class="sub-header">听不懂</th>
                                 <th class="session-header">场次ID</th>
                                 <th class="session-time-header">场次时间</th>
                                 <th class="session-five-star-header">五星率</th>
-                                <th class="sub-header">讲清楚</th>
-                                <th class="sub-header">吸引人</th>
-                                <th class="sub-header">引导强</th>
-                                <th class="sub-header">方法好</th>
-                                <th class="sub-header">轻松学</th>
+                                <th class="sub-header">讲解很透彻</th>
+                                <th class="sub-header">精彩纷呈</th>
+                                <th class="sub-header">引导互动强</th>
+                                <th class="sub-header">方法非常好</th>
+                                <th class="sub-header">轻松易学</th>
+                                <th class="session-four-star-header">四星率</th>
+                                <th class="sub-header">讲解很清楚</th>
+                                <th class="sub-header">生动有趣</th>
+                                <th class="sub-header">互动氛围好</th>
+                                <th class="sub-header">方法很好</th>
+                                <th class="sub-header">难度适宜</th>
+                                <th class="session-three-star-header">三星率</th>
+                                <th class="sub-header">讲解到位</th>
+                                <th class="sub-header">还算生动</th>
+                                <th class="sub-header">参与感一般</th>
+                                <th class="sub-header">方法有帮助</th>
+                                <th class="sub-header">难度适中</th>
+                                <th class="session-two-star-header">二星率</th>
+                                <th class="sub-header">讲解模糊</th>
+                                <th class="sub-header">平淡无趣</th>
+                                <th class="sub-header">互动参与弱</th>
+                                <th class="sub-header">方法欠佳</th>
+                                <th class="sub-header">偏难或简单</th>
                                 <th class="session-one-star-header">一星率</th>
-                                <th class="sub-header">不清楚</th>
-                                <th class="sub-header">没意思</th>
-                                <th class="sub-header">无互动</th>
-                                <th class="sub-header">方法差</th>
+                                <th class="sub-header">讲解混乱</th>
+                                <th class="sub-header">枯燥乏味</th>
+                                <th class="sub-header">无互动参与</th>
+                                <th class="sub-header">方法没用</th>
                                 <th class="sub-header">听不懂</th>
                             </tr>
                         </thead>

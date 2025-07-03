@@ -2360,6 +2360,9 @@ function generateTeacherAnalysis(data) {
             teacherStats[teacherName] = {
                 totalCount: 0,
                 fiveStarCount: 0,
+                fourStarCount: 0,
+                threeStarCount: 0,
+                twoStarCount: 0,
                 oneStarCount: 0,
                 sessions: new Set(), // 记录该主讲老师的所有场次
                 productLine: teacherFullInfo.productLine,
@@ -2371,6 +2374,21 @@ function generateTeacherAnalysis(data) {
                     '引导互动强': 0,
                     '方法非常好': 0,
                     '轻松易学': 0,
+                    '讲解很清楚': 0,
+                    '生动有趣': 0,
+                    '互动氛围好': 0,
+                    '方法很好': 0,
+                    '难度适宜': 0,
+                    '讲解到位': 0,
+                    '还算生动': 0,
+                    '参与感一般': 0,
+                    '方法有帮助': 0,
+                    '难度适中': 0,
+                    '讲解模糊': 0,
+                    '平淡无趣': 0,
+                    '互动参与弱': 0,
+                    '方法欠佳': 0,
+                    '偏难或简单': 0,
                     '讲解混乱': 0,
                     '枯燥乏味': 0,
                     '无互动参与': 0,
@@ -2387,6 +2405,9 @@ function generateTeacherAnalysis(data) {
                 sessionTime: window.teacherSessionMapping[sessionId] || '',
                 totalCount: 0,
                 fiveStarCount: 0,
+                fourStarCount: 0,
+                threeStarCount: 0,
+                twoStarCount: 0,
                 oneStarCount: 0,
                 labelCounts: {
                     '讲解很透彻': 0,
@@ -2394,6 +2415,21 @@ function generateTeacherAnalysis(data) {
                     '引导互动强': 0,
                     '方法非常好': 0,
                     '轻松易学': 0,
+                    '讲解很清楚': 0,
+                    '生动有趣': 0,
+                    '互动氛围好': 0,
+                    '方法很好': 0,
+                    '难度适宜': 0,
+                    '讲解到位': 0,
+                    '还算生动': 0,
+                    '参与感一般': 0,
+                    '方法有帮助': 0,
+                    '难度适中': 0,
+                    '讲解模糊': 0,
+                    '平淡无趣': 0,
+                    '互动参与弱': 0,
+                    '方法欠佳': 0,
+                    '偏难或简单': 0,
                     '讲解混乱': 0,
                     '枯燥乏味': 0,
                     '无互动参与': 0,
@@ -2410,6 +2446,12 @@ function generateTeacherAnalysis(data) {
         
         if (score === 5) {
             teacherStat.fiveStarCount++;
+        } else if (score === 4) {
+            teacherStat.fourStarCount++;
+        } else if (score === 3) {
+            teacherStat.threeStarCount++;
+        } else if (score === 2) {
+            teacherStat.twoStarCount++;
         } else if (score === 1) {
             teacherStat.oneStarCount++;
         }
@@ -2420,6 +2462,12 @@ function generateTeacherAnalysis(data) {
         
         if (score === 5) {
             sessionStat.fiveStarCount++;
+        } else if (score === 4) {
+            sessionStat.fourStarCount++;
+        } else if (score === 3) {
+            sessionStat.threeStarCount++;
+        } else if (score === 2) {
+            sessionStat.twoStarCount++;
         } else if (score === 1) {
             sessionStat.oneStarCount++;
         }
@@ -2439,6 +2487,9 @@ function generateTeacherAnalysis(data) {
     const teacherNames = Object.keys(teacherStats);
     const averageStats = {
         fiveStarRate: 0,
+        fourStarRate: 0,
+        threeStarRate: 0,
+        twoStarRate: 0,
         oneStarRate: 0,
         labelRates: {
             '讲解很透彻': 0,
@@ -2446,6 +2497,21 @@ function generateTeacherAnalysis(data) {
             '引导互动强': 0,
             '方法非常好': 0,
             '轻松易学': 0,
+            '讲解很清楚': 0,
+            '生动有趣': 0,
+            '互动氛围好': 0,
+            '方法很好': 0,
+            '难度适宜': 0,
+            '讲解到位': 0,
+            '还算生动': 0,
+            '参与感一般': 0,
+            '方法有帮助': 0,
+            '难度适中': 0,
+            '讲解模糊': 0,
+            '平淡无趣': 0,
+            '互动参与弱': 0,
+            '方法欠佳': 0,
+            '偏难或简单': 0,
             '讲解混乱': 0,
             '枯燥乏味': 0,
             '无互动参与': 0,
@@ -2456,6 +2522,9 @@ function generateTeacherAnalysis(data) {
     
     if (teacherNames.length > 0) {
         let totalFiveStarRate = 0;
+        let totalFourStarRate = 0;
+        let totalThreeStarRate = 0;
+        let totalTwoStarRate = 0;
         let totalOneStarRate = 0;
         const totalLabelRates = {
             '讲解很透彻': 0,
@@ -2463,6 +2532,21 @@ function generateTeacherAnalysis(data) {
             '引导互动强': 0,
             '方法非常好': 0,
             '轻松易学': 0,
+            '讲解很清楚': 0,
+            '生动有趣': 0,
+            '互动氛围好': 0,
+            '方法很好': 0,
+            '难度适宜': 0,
+            '讲解到位': 0,
+            '还算生动': 0,
+            '参与感一般': 0,
+            '方法有帮助': 0,
+            '难度适中': 0,
+            '讲解模糊': 0,
+            '平淡无趣': 0,
+            '互动参与弱': 0,
+            '方法欠佳': 0,
+            '偏难或简单': 0,
             '讲解混乱': 0,
             '枯燥乏味': 0,
             '无互动参与': 0,
@@ -2473,9 +2557,15 @@ function generateTeacherAnalysis(data) {
         teacherNames.forEach(name => {
             const stats = teacherStats[name];
             const fiveStarRate = stats.totalCount > 0 ? (stats.fiveStarCount / stats.totalCount * 100) : 0;
+            const fourStarRate = stats.totalCount > 0 ? (stats.fourStarCount / stats.totalCount * 100) : 0;
+            const threeStarRate = stats.totalCount > 0 ? (stats.threeStarCount / stats.totalCount * 100) : 0;
+            const twoStarRate = stats.totalCount > 0 ? (stats.twoStarCount / stats.totalCount * 100) : 0;
             const oneStarRate = stats.totalCount > 0 ? (stats.oneStarCount / stats.totalCount * 100) : 0;
             
             totalFiveStarRate += fiveStarRate;
+            totalFourStarRate += fourStarRate;
+            totalThreeStarRate += threeStarRate;
+            totalTwoStarRate += twoStarRate;
             totalOneStarRate += oneStarRate;
             
             Object.keys(totalLabelRates).forEach(label => {
@@ -2485,6 +2575,9 @@ function generateTeacherAnalysis(data) {
         });
         
         averageStats.fiveStarRate = totalFiveStarRate / teacherNames.length;
+        averageStats.fourStarRate = totalFourStarRate / teacherNames.length;
+        averageStats.threeStarRate = totalThreeStarRate / teacherNames.length;
+        averageStats.twoStarRate = totalTwoStarRate / teacherNames.length;
         averageStats.oneStarRate = totalOneStarRate / teacherNames.length;
         Object.keys(averageStats.labelRates).forEach(label => {
             averageStats.labelRates[label] = totalLabelRates[label] / teacherNames.length;
@@ -2498,6 +2591,9 @@ function generateTeacherAnalysis(data) {
     teacherNames.forEach(name => {
         const stats = teacherStats[name];
         const fiveStarRate = stats.totalCount > 0 ? (stats.fiveStarCount / stats.totalCount * 100) : 0;
+        const fourStarRate = stats.totalCount > 0 ? (stats.fourStarCount / stats.totalCount * 100) : 0;
+        const threeStarRate = stats.totalCount > 0 ? (stats.threeStarCount / stats.totalCount * 100) : 0;
+        const twoStarRate = stats.totalCount > 0 ? (stats.twoStarCount / stats.totalCount * 100) : 0;
         const oneStarRate = stats.totalCount > 0 ? (stats.oneStarCount / stats.totalCount * 100) : 0;
         
         const labelRates = {};
@@ -2507,6 +2603,9 @@ function generateTeacherAnalysis(data) {
         
         // 判断是否高于平均值
         const fiveStarAboveAvg = fiveStarRate > averageStats.fiveStarRate;
+        const fourStarAboveAvg = fourStarRate > averageStats.fourStarRate;
+        const threeStarAboveAvg = threeStarRate > averageStats.threeStarRate;
+        const twoStarAboveAvg = twoStarRate > averageStats.twoStarRate;
         const oneStarAboveAvg = oneStarRate > averageStats.oneStarRate;
         
         const labelAboveAvg = {};
@@ -2522,6 +2621,9 @@ function generateTeacherAnalysis(data) {
         teacherSessions.forEach((sessionId, index) => {
             const sessionStat = sessionStats[sessionId];
             const sessionFiveStarRate = sessionStat.totalCount > 0 ? (sessionStat.fiveStarCount / sessionStat.totalCount * 100) : 0;
+            const sessionFourStarRate = sessionStat.totalCount > 0 ? (sessionStat.fourStarCount / sessionStat.totalCount * 100) : 0;
+            const sessionThreeStarRate = sessionStat.totalCount > 0 ? (sessionStat.threeStarCount / sessionStat.totalCount * 100) : 0;
+            const sessionTwoStarRate = sessionStat.totalCount > 0 ? (sessionStat.twoStarCount / sessionStat.totalCount * 100) : 0;
             const sessionOneStarRate = sessionStat.totalCount > 0 ? (sessionStat.oneStarCount / sessionStat.totalCount * 100) : 0;
             
             const sessionLabelRates = {};
@@ -2543,6 +2645,24 @@ function generateTeacherAnalysis(data) {
                     <td class="rate-cell ${labelAboveAvg['引导互动强'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['引导互动强'].toFixed(1)}%</td>
                     <td class="rate-cell ${labelAboveAvg['方法非常好'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['方法非常好'].toFixed(1)}%</td>
                     <td class="rate-cell ${labelAboveAvg['轻松易学'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['轻松易学'].toFixed(1)}%</td>
+                    <td class="rate-cell four-star-rate ${fourStarAboveAvg ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${fourStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['讲解很清楚'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解很清楚'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['生动有趣'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['生动有趣'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['互动氛围好'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['互动氛围好'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['方法很好'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['方法很好'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['难度适宜'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['难度适宜'].toFixed(1)}%</td>
+                    <td class="rate-cell three-star-rate ${threeStarAboveAvg ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${threeStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['讲解到位'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解到位'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['还算生动'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['还算生动'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['参与感一般'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['参与感一般'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['方法有帮助'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['方法有帮助'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['难度适中'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['难度适中'].toFixed(1)}%</td>
+                    <td class="rate-cell two-star-rate ${twoStarAboveAvg ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${twoStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['讲解模糊'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解模糊'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['平淡无趣'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['平淡无趣'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['互动参与弱'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['互动参与弱'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['方法欠佳'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['方法欠佳'].toFixed(1)}%</td>
+                    <td class="rate-cell ${labelAboveAvg['偏难或简单'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['偏难或简单'].toFixed(1)}%</td>
                     <td class="rate-cell one-star-rate ${oneStarAboveAvg ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${oneStarRate.toFixed(1)}%</td>
                     <td class="rate-cell ${labelAboveAvg['讲解混乱'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解混乱'].toFixed(1)}%</td>
                     <td class="rate-cell ${labelAboveAvg['枯燥乏味'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['枯燥乏味'].toFixed(1)}%</td>
@@ -2557,6 +2677,24 @@ function generateTeacherAnalysis(data) {
                     <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionFourStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['讲解很清楚'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['生动有趣'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['互动氛围好'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法很好'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['难度适宜'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionThreeStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['讲解到位'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['还算生动'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['参与感一般'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法有帮助'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['难度适中'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionTwoStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['讲解模糊'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['平淡无趣'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['互动参与弱'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法欠佳'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['偏难或简单'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
@@ -2577,6 +2715,24 @@ function generateTeacherAnalysis(data) {
                     <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionFourStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['讲解很清楚'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['生动有趣'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['互动氛围好'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法很好'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['难度适宜'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionThreeStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['讲解到位'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['还算生动'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['参与感一般'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法有帮助'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['难度适中'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionTwoStarRate.toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['讲解模糊'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['平淡无趣'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['互动参与弱'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['方法欠佳'].toFixed(1)}%</td>
+                    <td class="rate-cell">${sessionLabelRates['偏难或简单'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
                     <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
@@ -2602,12 +2758,50 @@ function generateTeacherAnalysis(data) {
             <td class="rate-cell">${averageStats.labelRates['引导互动强'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['方法非常好'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['轻松易学'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.fourStarRate.toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['讲解很清楚'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['生动有趣'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['互动氛围好'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['方法很好'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['难度适宜'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.threeStarRate.toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['讲解到位'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['还算生动'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['参与感一般'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['方法有帮助'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['难度适中'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.twoStarRate.toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['讲解模糊'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['平淡无趣'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['互动参与弱'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['方法欠佳'].toFixed(1)}%</td>
+            <td class="rate-cell">${averageStats.labelRates['偏难或简单'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.oneStarRate.toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['讲解混乱'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['枯燥乏味'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['无互动参与'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['方法没用'].toFixed(1)}%</td>
             <td class="rate-cell">${averageStats.labelRates['听不懂'].toFixed(1)}%</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
+            <td class="rate-cell">-</td>
             <td class="rate-cell">-</td>
             <td class="rate-cell">-</td>
             <td class="rate-cell">-</td>
@@ -2810,6 +3004,9 @@ function generateFilteredTeacherTable(filteredTeachers) {
     filteredTeachers.forEach(name => {
         const stats = teacherStatsData[name];
         const fiveStarRate = stats.totalCount > 0 ? (stats.fiveStarCount / stats.totalCount * 100) : 0;
+        const fourStarRate = stats.totalCount > 0 ? (stats.fourStarCount / stats.totalCount * 100) : 0;
+        const threeStarRate = stats.totalCount > 0 ? (stats.threeStarCount / stats.totalCount * 100) : 0;
+        const twoStarRate = stats.totalCount > 0 ? (stats.twoStarCount / stats.totalCount * 100) : 0;
         const oneStarRate = stats.totalCount > 0 ? (stats.oneStarCount / stats.totalCount * 100) : 0;
         
         const labelRates = {};
@@ -2819,6 +3016,9 @@ function generateFilteredTeacherTable(filteredTeachers) {
         
         // 判断是否高于平均值
         const fiveStarAboveAvg = fiveStarRate > teacherAverageStats.fiveStarRate;
+        const fourStarAboveAvg = fourStarRate > teacherAverageStats.fourStarRate;
+        const threeStarAboveAvg = threeStarRate > teacherAverageStats.threeStarRate;
+        const twoStarAboveAvg = twoStarRate > teacherAverageStats.twoStarRate;
         const oneStarAboveAvg = oneStarRate > teacherAverageStats.oneStarRate;
         
         const labelAboveAvg = {};
@@ -2840,6 +3040,9 @@ function generateFilteredTeacherTable(filteredTeachers) {
             const sessionStat = sessionStatsData[sessionId];
             if (sessionStat) {
                 const sessionFiveStarRate = sessionStat.totalCount > 0 ? (sessionStat.fiveStarCount / sessionStat.totalCount * 100) : 0;
+                const sessionFourStarRate = sessionStat.totalCount > 0 ? (sessionStat.fourStarCount / sessionStat.totalCount * 100) : 0;
+                const sessionThreeStarRate = sessionStat.totalCount > 0 ? (sessionStat.threeStarCount / sessionStat.totalCount * 100) : 0;
+                const sessionTwoStarRate = sessionStat.totalCount > 0 ? (sessionStat.twoStarCount / sessionStat.totalCount * 100) : 0;
                 const sessionOneStarRate = sessionStat.totalCount > 0 ? (sessionStat.oneStarCount / sessionStat.totalCount * 100) : 0;
                 
                 const sessionLabelRates = {};
@@ -2861,6 +3064,24 @@ function generateFilteredTeacherTable(filteredTeachers) {
                         <td class="rate-cell ${labelAboveAvg['引导互动强'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['引导互动强'].toFixed(1)}%</td>
                         <td class="rate-cell ${labelAboveAvg['方法非常好'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['方法非常好'].toFixed(1)}%</td>
                         <td class="rate-cell ${labelAboveAvg['轻松易学'] ? 'above-average-five-star' : ''}" rowspan="${sessionCount}">${labelRates['轻松易学'].toFixed(1)}%</td>
+                        <td class="rate-cell four-star-rate ${fourStarAboveAvg ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${fourStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['讲解很清楚'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解很清楚'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['生动有趣'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['生动有趣'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['互动氛围好'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['互动氛围好'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['方法很好'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['方法很好'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['难度适宜'] ? 'above-average-four-star' : ''}" rowspan="${sessionCount}">${labelRates['难度适宜'].toFixed(1)}%</td>
+                        <td class="rate-cell three-star-rate ${threeStarAboveAvg ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${threeStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['讲解到位'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解到位'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['还算生动'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['还算生动'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['参与感一般'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['参与感一般'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['方法有帮助'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['方法有帮助'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['难度适中'] ? 'above-average-three-star' : ''}" rowspan="${sessionCount}">${labelRates['难度适中'].toFixed(1)}%</td>
+                        <td class="rate-cell two-star-rate ${twoStarAboveAvg ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${twoStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['讲解模糊'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解模糊'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['平淡无趣'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['平淡无趣'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['互动参与弱'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['互动参与弱'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['方法欠佳'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['方法欠佳'].toFixed(1)}%</td>
+                        <td class="rate-cell ${labelAboveAvg['偏难或简单'] ? 'above-average-two-star' : ''}" rowspan="${sessionCount}">${labelRates['偏难或简单'].toFixed(1)}%</td>
                         <td class="rate-cell one-star-rate ${oneStarAboveAvg ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${oneStarRate.toFixed(1)}%</td>
                         <td class="rate-cell ${labelAboveAvg['讲解混乱'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['讲解混乱'].toFixed(1)}%</td>
                         <td class="rate-cell ${labelAboveAvg['枯燥乏味'] ? 'above-average-one-star' : ''}" rowspan="${sessionCount}">${labelRates['枯燥乏味'].toFixed(1)}%</td>
@@ -2875,6 +3096,24 @@ function generateFilteredTeacherTable(filteredTeachers) {
                         <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionFourStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['讲解很清楚'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['生动有趣'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['互动氛围好'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法很好'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['难度适宜'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionThreeStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['讲解到位'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['还算生动'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['参与感一般'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法有帮助'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['难度适中'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionTwoStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['讲解模糊'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['平淡无趣'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['互动参与弱'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法欠佳'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['偏难或简单'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
@@ -2895,6 +3134,24 @@ function generateFilteredTeacherTable(filteredTeachers) {
                         <td class="rate-cell">${sessionLabelRates['引导互动强'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['方法非常好'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['轻松易学'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionFourStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['讲解很清楚'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['生动有趣'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['互动氛围好'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法很好'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['难度适宜'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionThreeStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['讲解到位'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['还算生动'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['参与感一般'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法有帮助'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['难度适中'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionTwoStarRate.toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['讲解模糊'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['平淡无趣'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['互动参与弱'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['方法欠佳'].toFixed(1)}%</td>
+                        <td class="rate-cell">${sessionLabelRates['偏难或简单'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionOneStarRate.toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['讲解混乱'].toFixed(1)}%</td>
                         <td class="rate-cell">${sessionLabelRates['枯燥乏味'].toFixed(1)}%</td>
